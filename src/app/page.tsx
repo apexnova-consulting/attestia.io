@@ -98,7 +98,7 @@ export default function LandingPage() {
             >
               The Trust Layer for
               <br />
-              <span className="bg-gradient-to-r from-primary via-blue-500 to-cyan-400 bg-clip-text text-transparent">
+              <span className="bg-gradient-to-r from-primary via-blue-400 to-cyan-300 bg-clip-text text-transparent drop-shadow-sm">
                 Global Transactions
               </span>
             </motion.h1>
@@ -480,7 +480,7 @@ export default function LandingPage() {
                   size="lg"
                   variant="secondary"
                   asChild
-                  className="text-lg px-8 h-12 bg-white text-primary hover:bg-white/90"
+                  className="text-lg px-8 h-12 bg-white text-primary hover:bg-white/90 font-semibold"
                 >
                   <Link href="/signup">Get Started Free</Link>
                 </Button>

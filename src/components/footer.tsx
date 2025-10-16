@@ -1,5 +1,5 @@
 import Link from "next/link"
-import { Shield, Linkedin, Twitter, Mail } from "lucide-react"
+import { Shield, Mail } from "lucide-react"
 
 export function Footer() {
   return (
@@ -21,22 +21,6 @@ export function Footer() {
               The Trust Layer for Global Transactions
             </p>
             <div className="flex space-x-4">
-              <a
-                href="https://linkedin.com"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-muted-foreground hover:text-primary transition-colors"
-              >
-                <Linkedin className="h-5 w-5" />
-              </a>
-              <a
-                href="https://twitter.com"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-muted-foreground hover:text-primary transition-colors"
-              >
-                <Twitter className="h-5 w-5" />
-              </a>
               <a
                 href="mailto:contact@attestia.io"
                 className="text-muted-foreground hover:text-primary transition-colors"
@@ -138,7 +122,7 @@ export function Footer() {
               </li>
               <li>
                 <Link
-                  href="/docs"
+                  href="/api/docs"
                   className="text-sm text-muted-foreground hover:text-foreground transition-colors"
                 >
                   Developer Docs
