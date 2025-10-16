@@ -79,7 +79,7 @@ export default function CreateAttestationPage() {
       }
 
       // Save attestation to database
-      const { data, error: dbError } = await supabase
+      const { error: dbError } = await supabase
         .from("attestations")
         .insert({
           user_id: user.id,
@@ -90,8 +90,6 @@ export default function CreateAttestationPage() {
           file_size: file.size,
           file_path: filePath,
         })
-        .select()
-        .single()
 
       if (dbError) {
         throw new Error("Failed to save attestation: " + dbError.message)
@@ -105,8 +103,8 @@ export default function CreateAttestationPage() {
         link: `${window.location.origin}/verify?id=${attestationId}`,
       })
       setSuccess(true)
-    } catch (err: any) {
-      setError(err.message || "An error occurred")
+    } catch (err: unknown) {
+      setError(err instanceof Error ? err.message : "An error occurred")
     } finally {
       setLoading(false)
     }
@@ -146,7 +144,7 @@ export default function CreateAttestationPage() {
       }
 
       // Save attestation to database
-      const { data, error: dbError } = await supabase
+      const { error: dbError } = await supabase
         .from("attestations")
         .insert({
           user_id: user.id,
@@ -157,8 +155,6 @@ export default function CreateAttestationPage() {
           file_size: blob.size,
           file_path: filePath,
         })
-        .select()
-        .single()
 
       if (dbError) {
         throw new Error("Failed to save attestation: " + dbError.message)
@@ -172,8 +168,8 @@ export default function CreateAttestationPage() {
         link: `${window.location.origin}/verify?id=${attestationId}`,
       })
       setSuccess(true)
-    } catch (err: any) {
-      setError(err.message || "An error occurred")
+    } catch (err: unknown) {
+      setError(err instanceof Error ? err.message : "An error occurred")
     } finally {
       setLoading(false)
     }

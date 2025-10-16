@@ -44,7 +44,7 @@ interface Attestation {
 
 interface User {
   id: string
-  email: string
+  email?: string
   user_metadata?: {
     full_name?: string
   }
@@ -59,15 +59,6 @@ export default function DashboardPage() {
   const [filterType, setFilterType] = useState("all")
   const router = useRouter()
   const supabase = createClient()
-
-  useEffect(() => {
-    checkUser()
-    fetchAttestations()
-  }, [checkUser, fetchAttestations])
-
-  useEffect(() => {
-    filterAttestations()
-  }, [filterAttestations])
 
   const checkUser = useCallback(async () => {
     const { data: { user } } = await supabase.auth.getUser()
@@ -113,6 +104,15 @@ export default function DashboardPage() {
 
     setFilteredAttestations(filtered)
   }, [attestations, searchQuery, filterType])
+
+  useEffect(() => {
+    checkUser()
+    fetchAttestations()
+  }, [checkUser, fetchAttestations])
+
+  useEffect(() => {
+    filterAttestations()
+  }, [filterAttestations])
 
   const handleSignOut = async () => {
     await supabase.auth.signOut()

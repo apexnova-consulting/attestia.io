@@ -64,6 +64,8 @@ export default function SharePage() {
   }
 
   const downloadQR = () => {
+    if (!attestation) return
+    
     const svg = document.getElementById("qr-code")
     if (!svg) return
 
@@ -88,6 +90,8 @@ export default function SharePage() {
   }
 
   const shareViaEmail = () => {
+    if (!attestation) return
+    
     const subject = `Attestation Verification: ${attestation.file_name}`
     const body = `Please verify this attestation:\n\nFile: ${attestation.file_name}\nAttestation ID: ${attestation.attestation_id}\nVerification Link: ${verificationUrl}`
     window.location.href = `mailto:?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`

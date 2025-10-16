@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useEffect, useCallback } from "react"
+import { useState, useEffect, useCallback, Suspense } from "react"
 import { useSearchParams } from "next/navigation"
 import { motion } from "framer-motion"
 import {
@@ -48,6 +48,14 @@ interface LookupResult {
 }
 
 export default function VerifyPage() {
+  return (
+    <Suspense fallback={<div className="min-h-screen flex items-center justify-center"><Loader2 className="h-8 w-8 animate-spin text-primary" /></div>}>
+      <VerifyPageContent />
+    </Suspense>
+  )
+}
+
+function VerifyPageContent() {
   const searchParams = useSearchParams()
   const attestationId = searchParams?.get("id")
 
@@ -122,8 +130,8 @@ export default function VerifyPage() {
           data,
         })
       }
-    } catch (err: any) {
-      setError(err.message || "An error occurred")
+    } catch (err: unknown) {
+      setError(err instanceof Error ? err.message : "An error occurred")
     } finally {
       setLoading(false)
     }
@@ -160,8 +168,8 @@ export default function VerifyPage() {
           data,
         })
       }
-    } catch (err: any) {
-      setError(err.message || "An error occurred")
+    } catch (err: unknown) {
+      setError(err instanceof Error ? err.message : "An error occurred")
     } finally {
       setLoading(false)
     }
@@ -237,21 +245,21 @@ export default function VerifyPage() {
                           Attestation ID
                         </label>
                         <p className="font-mono text-sm mt-1">
-                          {lookupResult.data.attestation_id}
+                          {lookupResult.data?.attestation_id}
                         </p>
                       </div>
                       <div>
                         <label className="text-sm font-medium text-muted-foreground">
                           File Name
                         </label>
-                        <p className="text-sm mt-1">{lookupResult.data.file_name}</p>
+                        <p className="text-sm mt-1">{lookupResult.data?.file_name}</p>
                       </div>
                       <div className="md:col-span-2">
                         <label className="text-sm font-medium text-muted-foreground">
                           SHA-256 Hash
                         </label>
                         <p className="font-mono text-xs mt-1 break-all bg-background px-3 py-2 rounded border">
-                          {lookupResult.data.file_hash}
+                          {lookupResult.data?.file_hash}
                         </p>
                       </div>
                       <div>
@@ -259,7 +267,7 @@ export default function VerifyPage() {
                           Created
                         </label>
                         <p className="text-sm mt-1">
-                          {formatDate(lookupResult.data.created_at)}
+                          {formatDate(lookupResult.data?.created_at || "")}
                         </p>
                       </div>
                       <div>
@@ -267,7 +275,7 @@ export default function VerifyPage() {
                           File Type
                         </label>
                         <Badge variant="outline" className="mt-1">
-                          {lookupResult.data.file_type}
+                          {lookupResult.data?.file_type}
                         </Badge>
                       </div>
                     </div>
@@ -440,7 +448,7 @@ export default function VerifyPage() {
                               File Name
                             </label>
                             <p className="text-sm mt-1">
-                              {verificationResult.data.file_name}
+                              {verificationResult.data?.file_name}
                             </p>
                           </div>
                           <div>
@@ -448,7 +456,7 @@ export default function VerifyPage() {
                               Created
                             </label>
                             <p className="text-sm mt-1">
-                              {formatDate(verificationResult.data.created_at)}
+                              {formatDate(verificationResult.data?.created_at || "")}
                             </p>
                           </div>
                         </div>
