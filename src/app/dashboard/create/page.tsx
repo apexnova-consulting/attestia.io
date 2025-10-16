@@ -4,22 +4,22 @@ import { useState } from "react"
 import { useRouter } from "next/navigation"
 import { motion } from "framer-motion"
 import { Upload, FileText, Loader2, CheckCircle2, Copy, ExternalLink, Hash } from "lucide-react"
-import { Button } from "@/src/components/ui/button"
-import { Input } from "@/src/components/ui/input"
-import { Label } from "@/src/components/ui/label"
-import { Textarea } from "@/src/components/ui/textarea"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/src/components/ui/card"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/src/components/ui/tabs"
+import { Button } from "@/components/ui/button"
+import { Input } from "@/components/ui/input"
+import { Label } from "@/components/ui/label"
+import { Textarea } from "@/components/ui/textarea"
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import {
   Dialog,
   DialogContent,
   DialogDescription,
   DialogHeader,
   DialogTitle,
-} from "@/src/components/ui/dialog"
-import { createClient } from "@/src/lib/supabase/client"
-import { hashFile, generateSHA256Hash, generateAttestationId } from "@/src/lib/hash"
-import { Navbar } from "@/src/components/navbar"
+} from "@/components/ui/dialog"
+import { createClient } from "@/lib/supabase/client"
+import { hashFile, generateSHA256Hash, generateAttestationId } from "@/lib/hash"
+import { Navbar } from "@/components/navbar"
 import Link from "next/link"
 
 export default function CreateAttestationPage() {

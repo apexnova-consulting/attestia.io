@@ -13,17 +13,17 @@ import {
   FileText,
   Shield,
 } from "lucide-react"
-import { Button } from "@/src/components/ui/button"
-import { Input } from "@/src/components/ui/input"
-import { Label } from "@/src/components/ui/label"
-import { Textarea } from "@/src/components/ui/textarea"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/src/components/ui/card"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/src/components/ui/tabs"
-import { Badge } from "@/src/components/ui/badge"
-import { createClient } from "@/src/lib/supabase/client"
-import { hashFile, generateSHA256Hash } from "@/src/lib/hash"
-import { Navbar } from "@/src/components/navbar"
-import { Footer } from "@/src/components/footer"
+import { Button } from "@/components/ui/button"
+import { Input } from "@/components/ui/input"
+import { Label } from "@/components/ui/label"
+import { Textarea } from "@/components/ui/textarea"
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import { Badge } from "@/components/ui/badge"
+import { createClient } from "@/lib/supabase/client"
+import { hashFile, generateSHA256Hash } from "@/lib/hash"
+import { Navbar } from "@/components/navbar"
+import { Footer } from "@/components/footer"
 import Link from "next/link"
 
 export default function VerifyPage() {

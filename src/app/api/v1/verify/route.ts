@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { createClient } from '@/src/lib/supabase/server'
+import { createClient } from '@/lib/supabase/server'
 
 // GET /api/v1/verify?hash=xxx or /api/v1/verify?id=xxx - Verify attestation
 export async function GET(request: NextRequest) {

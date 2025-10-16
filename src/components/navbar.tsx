@@ -4,8 +4,8 @@ import Link from "next/link"
 import { usePathname } from "next/navigation"
 import { motion } from "framer-motion"
 import { Shield, Menu } from "lucide-react"
-import { Button } from "@/src/components/ui/button"
-import { ThemeToggle } from "@/src/components/theme-toggle"
+import { Button } from "@/components/ui/button"
+import { ThemeToggle } from "@/components/theme-toggle"
 import { useState } from "react"
 
 export function Navbar() {
