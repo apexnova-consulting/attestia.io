@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { createClient } from '@/lib/supabase/server'
 
 // GET /api/v1/attestations - List all attestations for authenticated user
-export async function GET(request: NextRequest) {
+export async function GET() {
   try {
     const supabase = await createClient()
     const { data: { user }, error: authError } = await supabase.auth.getUser()
@@ -32,7 +32,7 @@ export async function GET(request: NextRequest) {
       data,
       count: data.length
     })
-  } catch (error) {
+  } catch {
     return NextResponse.json(
       { error: 'Internal server error' },
       { status: 500 }
@@ -41,7 +41,7 @@ export async function GET(request: NextRequest) {
 }
 
 // POST /api/v1/attestations - Create new attestation (Future: API-based creation)
-export async function POST(request: NextRequest) {
+export async function POST() {
   return NextResponse.json(
     {
       error: 'Not implemented',

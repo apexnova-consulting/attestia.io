@@ -1,6 +1,6 @@
 "use client"
 
-import { useEffect, useState } from "react"
+import { useEffect, useState, useCallback } from "react"
 import { useRouter } from "next/navigation"
 import Link from "next/link"
 import { motion } from "framer-motion"
@@ -15,13 +15,11 @@ import {
   LogOut,
   User,
   Loader2,
-  Download,
 } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -44,8 +42,16 @@ interface Attestation {
   file_size: number
 }
 
+interface User {
+  id: string
+  email: string
+  user_metadata?: {
+    full_name?: string
+  }
+}
+
 export default function DashboardPage() {
-  const [user, setUser] = useState<any>(null)
+  const [user, setUser] = useState<User | null>(null)
   const [attestations, setAttestations] = useState<Attestation[]>([])
   const [filteredAttestations, setFilteredAttestations] = useState<Attestation[]>([])
   const [loading, setLoading] = useState(true)
@@ -57,22 +63,22 @@ export default function DashboardPage() {
   useEffect(() => {
     checkUser()
     fetchAttestations()
-  }, [])
+  }, [checkUser, fetchAttestations])
 
   useEffect(() => {
     filterAttestations()
-  }, [searchQuery, filterType, attestations])
+  }, [filterAttestations])
 
-  const checkUser = async () => {
+  const checkUser = useCallback(async () => {
     const { data: { user } } = await supabase.auth.getUser()
     if (!user) {
       router.push("/login")
     } else {
       setUser(user)
     }
-  }
+  }, [supabase.auth, router])
 
-  const fetchAttestations = async () => {
+  const fetchAttestations = useCallback(async () => {
     setLoading(true)
     const { data, error } = await supabase
       .from("attestations")
@@ -85,9 +91,9 @@ export default function DashboardPage() {
       setAttestations(data || [])
     }
     setLoading(false)
-  }
+  }, [supabase])
 
-  const filterAttestations = () => {
+  const filterAttestations = useCallback(() => {
     let filtered = [...attestations]
 
     // Search filter
@@ -106,7 +112,7 @@ export default function DashboardPage() {
     }
 
     setFilteredAttestations(filtered)
-  }
+  }, [attestations, searchQuery, filterType])
 
   const handleSignOut = async () => {
     await supabase.auth.signOut()

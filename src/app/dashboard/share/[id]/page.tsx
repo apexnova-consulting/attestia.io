@@ -1,9 +1,9 @@
 "use client"
 
-import { useEffect, useState } from "react"
+import { useEffect, useState, useCallback } from "react"
 import { useParams, useRouter } from "next/navigation"
 import { motion } from "framer-motion"
-import { Copy, Download, Mail, MessageCircle, CheckCircle2, Loader2, Share2 } from "lucide-react"
+import { Copy, Download, Mail, CheckCircle2, Loader2, Share2 } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
@@ -12,22 +12,26 @@ import { Navbar } from "@/components/navbar"
 import Link from "next/link"
 import QRCode from "react-qr-code"
 
+interface Attestation {
+  id: string
+  attestation_id: string
+  file_name: string
+  file_hash: string
+  created_at: string
+  file_type: string
+  file_size: number
+}
+
 export default function SharePage() {
   const params = useParams()
   const id = params?.id as string
-  const [attestation, setAttestation] = useState<any>(null)
+  const [attestation, setAttestation] = useState<Attestation | null>(null)
   const [loading, setLoading] = useState(true)
   const [copied, setCopied] = useState(false)
   const router = useRouter()
   const supabase = createClient()
 
-  useEffect(() => {
-    if (id) {
-      fetchAttestation()
-    }
-  }, [id])
-
-  const fetchAttestation = async () => {
+  const fetchAttestation = useCallback(async () => {
     setLoading(true)
     const { data, error } = await supabase
       .from("attestations")
@@ -41,7 +45,13 @@ export default function SharePage() {
       setAttestation(data)
     }
     setLoading(false)
-  }
+  }, [supabase, id, router])
+
+  useEffect(() => {
+    if (id) {
+      fetchAttestation()
+    }
+  }, [id, fetchAttestation])
 
   const verificationUrl = attestation
     ? `${window.location.origin}/verify?id=${attestation.attestation_id}`

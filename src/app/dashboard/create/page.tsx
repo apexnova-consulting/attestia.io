@@ -3,7 +3,7 @@
 import { useState } from "react"
 import { useRouter } from "next/navigation"
 import { motion } from "framer-motion"
-import { Upload, FileText, Loader2, CheckCircle2, Copy, ExternalLink, Hash } from "lucide-react"
+import { Upload, FileText, Loader2, CheckCircle2, Copy, ExternalLink } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
@@ -22,12 +22,20 @@ import { hashFile, generateSHA256Hash, generateAttestationId } from "@/lib/hash"
 import { Navbar } from "@/components/navbar"
 import Link from "next/link"
 
+interface AttestationData {
+  id: string
+  hash: string
+  fileName: string
+  timestamp: string
+  link: string
+}
+
 export default function CreateAttestationPage() {
   const [file, setFile] = useState<File | null>(null)
   const [textContent, setTextContent] = useState("")
   const [loading, setLoading] = useState(false)
   const [success, setSuccess] = useState(false)
-  const [attestationData, setAttestationData] = useState<any>(null)
+  const [attestationData, setAttestationData] = useState<AttestationData | null>(null)
   const [error, setError] = useState("")
   const router = useRouter()
   const supabase = createClient()

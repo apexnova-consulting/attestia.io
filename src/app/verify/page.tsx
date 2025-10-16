@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import { useState, useEffect, useCallback } from "react"
 import { useSearchParams } from "next/navigation"
 import { motion } from "framer-motion"
 import {
@@ -9,12 +9,10 @@ import {
   XCircle,
   Loader2,
   Hash,
-  Calendar,
   FileText,
   Shield,
 } from "lucide-react"
 import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Textarea } from "@/components/ui/textarea"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
@@ -26,6 +24,29 @@ import { Navbar } from "@/components/navbar"
 import { Footer } from "@/components/footer"
 import Link from "next/link"
 
+interface VerificationResult {
+  verified: boolean
+  hash: string
+  data?: {
+    attestation_id: string
+    file_name: string
+    file_hash: string
+    file_type: string
+    created_at: string
+  }
+}
+
+interface LookupResult {
+  found: boolean
+  data?: {
+    attestation_id: string
+    file_name: string
+    file_hash: string
+    file_type: string
+    created_at: string
+  }
+}
+
 export default function VerifyPage() {
   const searchParams = useSearchParams()
   const attestationId = searchParams?.get("id")
@@ -33,20 +54,14 @@ export default function VerifyPage() {
   const [file, setFile] = useState<File | null>(null)
   const [textContent, setTextContent] = useState("")
   const [loading, setLoading] = useState(false)
-  const [verificationResult, setVerificationResult] = useState<any>(null)
+  const [verificationResult, setVerificationResult] = useState<VerificationResult | null>(null)
   const [error, setError] = useState("")
   const [lookupLoading, setLookupLoading] = useState(false)
-  const [lookupResult, setLookupResult] = useState<any>(null)
+  const [lookupResult, setLookupResult] = useState<LookupResult | null>(null)
 
   const supabase = createClient()
 
-  useEffect(() => {
-    if (attestationId) {
-      lookupAttestation(attestationId)
-    }
-  }, [attestationId])
-
-  const lookupAttestation = async (id: string) => {
+  const lookupAttestation = useCallback(async (id: string) => {
     setLookupLoading(true)
     const { data, error } = await supabase
       .from("attestations")
@@ -60,7 +75,13 @@ export default function VerifyPage() {
       setLookupResult({ found: true, data })
     }
     setLookupLoading(false)
-  }
+  }, [supabase])
+
+  useEffect(() => {
+    if (attestationId) {
+      lookupAttestation(attestationId)
+    }
+  }, [attestationId, lookupAttestation])
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
